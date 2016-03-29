@@ -48,7 +48,7 @@ environments:
 ---
 ---
 grails:
-    profile: web
+    profile: rest-api
     codegen:
         defaultPackage: couple.shopping
     spring:
@@ -90,7 +90,6 @@ grails:
               - application/json
               - text/json
             multipartForm: multipart/form-data
-            pdf: application/pdf
             rss: application/rss+xml
             text: text/plain
             hal:
@@ -106,17 +105,3 @@ grails:
         defaultScope: singleton
     converters:
         encoding: UTF-8
-    views:
-        default:
-            codec: html
-        gsp:
-            encoding: UTF-8
-            htmlcodec: xml
-            codecs:
-                expression: html
-                scriptlets: html
-                taglib: none
-                staticparts: none
-endpoints:
-    jmx:
-        unique-names: true

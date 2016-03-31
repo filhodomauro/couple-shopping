@@ -8,7 +8,6 @@ class Item {
 
     String description
     Boolean checked
-    User checkUser
 
     static belongsTo = [couple : Couple]
 

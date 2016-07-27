@@ -23,4 +23,8 @@ class CoupleController implements ExceptionHandlerController {
 		respond couple, [status: OK]
 	}
 	
+	def index(){
+		respond Couple.findAll(), [status: OK]
+	}
+	
 }

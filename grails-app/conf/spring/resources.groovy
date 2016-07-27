@@ -1,3 +1,4 @@
+import couple.shopping.infra.CoupleNotifier
 import grails.converters.JSON
 import couple.shopping.Couple
 
@@ -18,4 +19,5 @@ beans = {
 		}
 		jCouple
 	})
+	coupleNotifier(CoupleNotifier)
 }

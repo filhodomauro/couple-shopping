@@ -3,7 +3,6 @@ package couple.shopping
 
 import grails.rest.*
 
-@Resource(readOnly = false, formats = ['json', 'xml'])
 class Couple {
 
     String name

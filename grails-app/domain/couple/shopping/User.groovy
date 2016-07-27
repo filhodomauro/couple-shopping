@@ -3,7 +3,6 @@ package couple.shopping
 
 import grails.rest.*
 
-@Resource(uri = "/users", readOnly = false, formats = ['json', 'xml'])
 class User {
 
     String name
@@ -13,7 +12,7 @@ class User {
 
     static constraints = {
         name blank : false, size : 3..100
-        email blank : false, size : 4..50, email : true
+        email blank : false, size : 4..100, email : true
     }
 
 }

@@ -6,15 +6,20 @@ class UrlMappings {
 
 
         "/"(controller: 'application', action:'index')
+		"/couples" (controller: 'couple', action: [GET:'index', POST:'save'])
+		"/couples/$id" (controller: 'couple', action: [GET:'show', PUT:'update', DELETE:'delete'])
 
-        get "/couple" (controller : 'couple', action: 'show')
-        post "/couple" (controller : 'couple', action: 'save')
-        put "/couple" (controller : 'couple', action: 'update')
-        delete "/couple" (controller : 'couple', action: 'delete')
-        get "/couple/$id/items" (controller: 'item', action: 'index')
+		"/tags" (controller: 'tag', action: [GET: 'index'])
+		
+        get "/couples/$coupleId/items" (controller: 'item', action: 'index')
+        put "/couples/$coupleId/items" (controller: 'item', action: 'check')
 
+        get "/items/$id" (controller: 'item', action: 'show')
+        post "/items" (controller : 'item', action: 'save')
         put "/items" (controller: 'item', action: 'update')
+        delete "/items" (controller: 'item', action: 'delete')
 
-        "/tags" (resources : 'tag')
+        
+				
     }
 }

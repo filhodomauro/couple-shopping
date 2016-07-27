@@ -3,11 +3,10 @@ package couple.shopping
 
 import grails.rest.*
 
-@Resource(readOnly = false, formats = ['json', 'xml'])
 class Item {
 
     String description
-    Boolean checked
+    boolean checked
 
     static belongsTo = [couple : Couple]
 
@@ -16,5 +15,4 @@ class Item {
     static constraints = {
         description blank : false, size : 2..150
     }
-
 }

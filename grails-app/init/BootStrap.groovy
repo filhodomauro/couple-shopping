@@ -1,20 +1,26 @@
 import couple.shopping.Couple
 import couple.shopping.Item
+import couple.shopping.Role
 import couple.shopping.User
+import couple.shopping.UserRole
 
 class BootStrap {
 
     def init = { servletContext ->
-        log.error "Teste bootstrap"
+        log.info "Teste bootstrap"
         Couple couple = new Couple(name : "couple")
         couple.addToUsers(
-                new User( name : "User 1", email : "user1@teste.com")
+                new User( name: "User 1", username : "user1", email : "user1@teste.com", password: "123456")
         )
 
         couple.addToItems(
                 new Item( description : "item 1", checked: false )
         )
         couple.save( failOnError : true)
+
+        Role role = new Role(authority: "ROLE_USER").save()
+
+        UserRole.create couple.users.first(), role
 
     }
     def destroy = {

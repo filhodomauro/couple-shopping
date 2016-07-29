@@ -3,7 +3,7 @@ package couple.shopping
 import static org.springframework.http.HttpStatus.*
 
 import couple.shopping.command.CreateCoupleCommand;
-import grails.converters.*
+import grails.plugin.springsecurity.annotation.Secured
 
 
 class CoupleController implements ExceptionHandlerController {
@@ -22,7 +22,8 @@ class CoupleController implements ExceptionHandlerController {
 		couple = coupleService.update couple
 		respond couple, [status: OK]
 	}
-	
+
+	@Secured('ROLE_USER')
 	def index(){
 		respond Couple.findAll(), [status: OK]
 	}

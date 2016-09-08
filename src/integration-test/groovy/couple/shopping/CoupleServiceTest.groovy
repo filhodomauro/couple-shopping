@@ -15,8 +15,7 @@ import couple.shopping.command.NewUserCommand
 @Rollback
 class CoupleServiceTest extends Specification{
 	
-	@Autowired
-	CoupleService coupleService
+	def coupleService
 	
 	void "test that a couple is created"(){
 		setup:
@@ -68,11 +67,15 @@ class CoupleServiceTest extends Specification{
 			name: "couple test",
 			primaryUser: new NewUserCommand(
 				name: "Primary user",
-				email: "primary@email.com"
+				email: "primary@email.com",
+				password: "123456",
+				username: "primary@email.com"
 			),
 			secondaryUser: new NewUserCommand(
 				name: "Secondary user",
-				email: "secondary@email.com"
+				email: "secondary@email.com",
+				password: "654321",
+				username: "secondary@email.com"
 			)
 		)
 	}

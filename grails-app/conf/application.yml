@@ -56,6 +56,17 @@ grails:
             proxies: false
     gorm:
         failOnError: true
+    plugin:
+        springsecurity:
+            securityConfigType: "Annotation"
+            userLookup:
+                userDomainClassName: 'couple.shopping.User'
+                authorityJoinClassName: 'couple.shopping.UserRole'
+            authority:
+                className: 'couple.shopping.Role'
+            filterChain.chainMap:
+                - { pattern: '/**', filters: 'JOINED_FILTERS,-anonymousAuthenticationFilter,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter,-rememberMeAuthenticationFilter' }
+
 info:
     app:
         name: '@info.app.name@'

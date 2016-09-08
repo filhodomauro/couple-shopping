@@ -7,6 +7,7 @@ class UrlMappings {
 
         "/"(controller: 'application', action:'index')
 		"/couples" (controller: 'couple', action: [GET:'index', POST:'create'])
+        "/couples/check" (controller: 'couple', action: [GET:'check'])
 		"/couples/$id" (controller: 'couple', action: [GET:'show', PUT:'update', DELETE:'delete'])
 
 		"/tags" (controller: 'tag', action: [GET: 'index'])
@@ -15,12 +16,8 @@ class UrlMappings {
         "/couples/$coupleId/items/$id" (controller: 'item', action: [PUT: 'update', DELETE: 'delete'])
         "/couples/$coupleId/items/$id/check" (controller: 'item', action: [PUT: 'check'])
 
-        get "/items/$id" (controller: 'item', action: 'show')
-        post "/items" (controller : 'item', action: 'save')
-        put "/items" (controller: 'item', action: 'update')
-        delete "/items" (controller: 'item', action: 'delete')
-
-        
-				
+        "404"(controller: 'NotFound')
+        "401"(controller: 'AccessDenied')
+        "403"(controller: 'AccessDenied')
     }
 }

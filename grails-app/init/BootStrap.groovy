@@ -20,6 +20,8 @@ class BootStrap {
 
         Role role = new Role(authority: "ROLE_USER").save()
 
+        new Role(authority: "ROLE_USER_ADMIN").save()
+
         UserRole.create couple.users.first(), role
 
     }

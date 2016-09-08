@@ -27,5 +27,10 @@ class CoupleController implements ExceptionHandlerController {
 	def index(){
 		respond Couple.findAll(), [status: OK]
 	}
+
+	@Secured('ROLE_USER_ADMIN')
+	def check(){
+		respond Couple.findAll(), [status: OK]
+	}
 	
 }

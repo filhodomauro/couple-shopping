@@ -1,13 +1,14 @@
 package couple.shopping
 
+import exceptions.NotFoundException
 import grails.validation.ValidationException
 import couple.shopping.command.CreateCoupleCommand
-import couple.shopping.infra.CoupleNotifier;
+import couple.shopping.infra.CoupleConfirmationNotifier;
 
 
 class CoupleService {
 	
-	CoupleNotifier coupleNotifier
+	CoupleConfirmationNotifier coupleConfirmationNotifier
 
 	def create(CreateCoupleCommand coupleCommand){
 		log.info "saving couple"
@@ -16,7 +17,7 @@ class CoupleService {
 		}
 		def couple = coupleCommand.toCouple()
 		couple.save()
-		coupleNotifier.created couple
+        coupleConfirmationNotifier.created couple
 		couple
 	}
 	
@@ -26,5 +27,14 @@ class CoupleService {
 			throw new ValidationException("Erro ao atualizar casal", couple.errors)
 		}
 		couple.save()
+	}
+
+	def confirm(String username, String confirmationToken){
+		User user = User.findByUsernameAndConfirmationToken(username, confirmationToken)
+		if(!user){
+			throw new NotFoundException("Username or token not found")
+		}
+		user.enabled = true
+		user.save failOnError: true
 	}
 }

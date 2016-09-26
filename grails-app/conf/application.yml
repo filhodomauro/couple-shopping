@@ -1,4 +1,6 @@
 ---
+coupleShopping:
+    url: 'https://couple-shopping.herokuapp.com'
 hibernate:
     cache:
         queries: false
@@ -44,6 +46,10 @@ environments:
                 testOnReturn: false
                 jdbcInterceptors: ConnectionState
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
+mailGun:
+    url: "${MAILGUN_URL}"
+    api_key: "${MAILGUN_KEY}"
+    from: "${MAILGUN_FROM}"
 
 ---
 ---

@@ -1,4 +1,4 @@
-import couple.shopping.infra.CoupleNotifier
+import couple.shopping.infra.CoupleConfirmationNotifier
 import grails.converters.JSON
 import couple.shopping.Couple
 
@@ -19,5 +19,5 @@ beans = {
 		}
 		jCouple
 	})
-	coupleNotifier(CoupleNotifier)
+	coupleConfirmationNotifier(CoupleConfirmationNotifier)
 }

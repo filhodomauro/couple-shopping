@@ -16,6 +16,9 @@ class CoupleService {
 			throw new ValidationException("Erro ao salvar casal", coupleCommand.errors)
 		}
 		def couple = coupleCommand.toCouple()
+		couple.users?.each{
+			it.confirmationToken = UUID.randomUUID().toString()
+		}
 		couple.save()
         coupleConfirmationNotifier.created couple
 		couple

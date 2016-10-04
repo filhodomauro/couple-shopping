@@ -5,21 +5,31 @@ import couple.shopping.User
 import couple.shopping.infra.mail.Email
 import couple.shopping.infra.mail.EmailNotifier
 import grails.util.Holders
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import org.springframework.boot.context.properties.ConfigurationProperties
 
+@ConfigurationProperties(prefix = "mailGun")
 class CoupleConfirmationNotifier {
+
+	private static Logger LOG = LoggerFactory.getLogger(CoupleConfirmationNotifier)
+
+	String url
+	String apiKey
+	String from
 
     void created(Couple couple){
         couple.users.each { user ->
-            def email = getEmail user.email
+            def email = getEmail user
             EmailNotifier.notify email
 		}
 	}
 
-	private static Email getEmail(User user){
+	private Email getEmail(User user){
 		new Email(
-				url: Holders.config.mainGun.url,
-				apiKey: Holders.config.mailGun.api_key,
-				from: Holders.config.mailGun.from,
+				url: this.url,
+				apiKey: this.apiKey,
+				from: this.from,
                 to: user.email,
                 subject: "Welcome to Couple Shopping - confirmation",
                 text: "Welcome to Couple Shopping. \n" +

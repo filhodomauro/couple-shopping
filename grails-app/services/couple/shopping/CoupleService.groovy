@@ -1,14 +1,15 @@
 package couple.shopping
 
+import couple.shopping.command.CreateCoupleCommand
+import couple.shopping.infra.CoupleConfirmationNotifier
 import exceptions.NotFoundException
 import grails.validation.ValidationException
-import couple.shopping.command.CreateCoupleCommand
-import couple.shopping.infra.CoupleConfirmationNotifier;
-
 
 class CoupleService {
 	
 	CoupleConfirmationNotifier coupleConfirmationNotifier
+
+	def emailNotifier
 
 	def create(CreateCoupleCommand coupleCommand){
 		log.info "saving couple"
@@ -20,7 +21,7 @@ class CoupleService {
 			it.confirmationToken = UUID.randomUUID().toString()
 		}
 		couple.save()
-        coupleConfirmationNotifier.created couple
+        coupleConfirmationNotifier.created couple, emailNotifier
 		couple
 	}
 	

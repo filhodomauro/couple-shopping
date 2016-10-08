@@ -1,6 +1,12 @@
 ---
 coupleShopping:
     url: 'https://couple-shopping.herokuapp.com'
+
+mailGun:
+    url: ${MAILGUN_URL}
+    api_key: ${MAILGUN_KEY}
+    from: ${MAILGUN_FROM}
+
 hibernate:
     cache:
         queries: false
@@ -26,6 +32,10 @@ environments:
         dataSource:
             dbCreate: update
             url: jdbc:h2:mem:testDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
+        mailGun:
+            url: "urlmailtest"
+            api_key: "urlmailkey"
+            from: "urlmailfrom"
     production:
         dataSource:
             dbCreate: update
@@ -48,10 +58,6 @@ environments:
                 testOnReturn: false
                 jdbcInterceptors: ConnectionState
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
-mailGun:
-    url: ${MAILGUN_URL}
-    api_key: ${MAILGUN_KEY}
-    from: ${MAILGUN_FROM}
 
 ---
 ---

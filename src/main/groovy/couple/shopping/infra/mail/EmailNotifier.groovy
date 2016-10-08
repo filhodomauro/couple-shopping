@@ -57,7 +57,7 @@ class EmailNotifier implements Notifier{
     }
 
     String getApiKey(){
-        Holders.config.mailGun.apiKey
+        Holders.config.mailGun.api_key
     }
 
     String getFrom(){

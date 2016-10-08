@@ -36,7 +36,7 @@ class EmailNotifier implements Notifier{
             body(form)
         }
         if(!response || !response.statusCode.'2xxSuccessful'){
-            LOG.error "Mail cannot be send: Status ${response?.statusCode} - ${response?.text}"
+            LOG.error "Mail cannot be send: Status ${response?.statusCode} - ${response?.text}. Email: [${email.from} - ${email.url} - ${email.apiKey?.hashCode()}] "
             throw new RuntimeException("Mail cannot be send to ${email.to}")
         }
     }

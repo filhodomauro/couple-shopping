@@ -43,9 +43,4 @@ class CoupleController implements ExceptionHandlerController {
         coupleService.confirm username, token
         render "Confirmation successful"
 	}
-
-	def info(){
-
-	}
-
 }

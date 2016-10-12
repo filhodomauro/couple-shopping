@@ -1,8 +1,5 @@
 package couple.shopping
 
-
-import grails.rest.*
-
 class Tag {
 
     String description

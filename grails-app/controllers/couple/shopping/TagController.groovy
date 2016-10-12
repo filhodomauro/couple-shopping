@@ -1,11 +1,9 @@
 package couple.shopping
 
-
-import grails.rest.*
-
-class TagController extends RestfulController {
+class TagController {
     static responseFormats = ['json', 'xml']
-    TagController() {
-        super(Tag)
+
+    def index(){
+
     }
 }

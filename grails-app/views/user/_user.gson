@@ -1,0 +1,12 @@
+model {
+    User user
+}
+json {
+    username user.username
+    email user.email
+    name user.name
+    enabled user.enabled
+    accountExpired user.accountExpired
+    accountLocked user.accountLocked
+    passwordExpired user.passwordExpired
+}

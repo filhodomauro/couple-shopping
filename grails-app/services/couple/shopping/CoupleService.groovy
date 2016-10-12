@@ -40,5 +40,12 @@ class CoupleService {
 		}
 		user.enabled = true
 		user.save failOnError: true
+		userRoles.each {
+			UserRole.create user, it
+		}
+	}
+
+	List<Role> getUserRoles(){
+		Role.findAllByAuthority 'ROLE_USER'
 	}
 }

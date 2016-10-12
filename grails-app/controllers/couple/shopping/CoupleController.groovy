@@ -1,7 +1,6 @@
 package couple.shopping
 
 import grails.converters.JSON
-import org.springframework.http.HttpStatus
 
 import static couple.shopping.ControllerHelper.errorObj
 import static org.springframework.http.HttpStatus.*
@@ -28,26 +27,25 @@ class CoupleController implements ExceptionHandlerController {
 		respond couple, [status: OK]
 	}
 
-	@Secured('ROLE_USER')
-	def index(){
-		respond Couple.findAll(), [status: OK]
-	}
-
 	@Secured('ROLE_USER_ADMIN')
-	def check(){
+	def index(){
 		respond Couple.findAll(), [status: OK]
 	}
 
 	def confirm(String username, String token){
 		if(!username || !token){
             log.error "Invalid parameters username: $username - token: $token"
-            response.status = HttpStatus.BAD_REQUEST.value()
+            response.status = BAD_REQUEST.value()
             withFormat {
-                json { render errorObj(HttpStatus.BAD_REQUEST, "Invalid parameters") as JSON }
+                json { render errorObj(BAD_REQUEST, "Invalid parameters") as JSON }
             }
 		}
         coupleService.confirm username, token
         render "Confirmation successful"
 	}
-	
+
+	def info(){
+
+	}
+
 }

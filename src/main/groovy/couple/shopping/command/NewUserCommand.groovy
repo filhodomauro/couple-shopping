@@ -22,6 +22,7 @@ class NewUserCommand implements Validateable {
 		user.username = this.username
 		user.email = this.email
 		user.password = this.password
+		user.enabled = false
 		user
 	}
 

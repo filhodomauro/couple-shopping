@@ -10,8 +10,9 @@ class UrlMappings {
         "/couples/check" (controller: 'couple', action: [GET:'check'])
 		"/couples/$id" (controller: 'couple', action: [GET:'show', PUT:'update', DELETE:'delete'])
         "/couples/create" (controller: 'couple', action: [POST: 'create'])
-        "/confirm/$username/$token" (controller: 'couple', action: [GET: 'confirm'])
 
+        "/confirm/$username/$token" (controller: 'couple', action: [GET: 'confirm'])
+        "/users/info" (controller: 'user', action: [GET: 'info'])
 
 		"/tags" (controller: 'tag', action: [GET: 'index'])
 		

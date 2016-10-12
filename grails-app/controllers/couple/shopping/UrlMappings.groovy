@@ -14,7 +14,7 @@ class UrlMappings {
         "/confirm/$username/$token" (controller: 'couple', action: [GET: 'confirm'])
         "/users/info" (controller: 'user', action: [GET: 'info'])
 
-		"/tags" (controller: 'tag', action: [GET: 'index'])
+		"/tags" (controller: 'tag', action: [GET: 'index', POST: 'create'])
 		
         "/couples/$coupleId/items" (controller: 'item', action: [GET: 'index', POST: 'save'])
         "/couples/$coupleId/items/$id" (controller: 'item', action: [PUT: 'update', DELETE: 'delete'])

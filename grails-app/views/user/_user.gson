@@ -9,4 +9,5 @@ json {
     accountExpired user.accountExpired
     accountLocked user.accountLocked
     passwordExpired user.passwordExpired
+    accountId user.couple?.id
 }

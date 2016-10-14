@@ -45,7 +45,7 @@ class CoupleService {
 		}
 	}
 
-	List<Role> getUserRoles(){
+	private List<Role> getUserRoles(){
 		Role.findAllByAuthority 'ROLE_USER'
 	}
 }

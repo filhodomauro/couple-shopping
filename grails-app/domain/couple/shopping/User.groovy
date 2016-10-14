@@ -21,6 +21,8 @@ class User implements Serializable {
 	boolean accountLocked
 	boolean passwordExpired
 
+	static belongsTo = [couple : Couple]
+
 	Set<Role> getAuthorities() {
 		UserRole.findAllByUser(this)*.role
 	}

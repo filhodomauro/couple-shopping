@@ -61,6 +61,18 @@ class CoupleServiceTest extends Specification{
 		couple.name == "Novo nome do casal"
 		Couple.get(couple.id).name == "Novo nome do casal"
 	}
+
+	def "test that a couple is reject by existent username"(){
+		setup:
+		def cmd = createCoupleCommand()
+		coupleService.create cmd
+
+		when:
+		coupleService.create cmd
+
+		then:
+		thrown(ValidationException)
+	}
 	
 	CreateCoupleCommand createCoupleCommand(){
 		def cmd = new CreateCoupleCommand(

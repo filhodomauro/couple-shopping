@@ -33,6 +33,14 @@ class CoupleService {
 		couple.save()
 	}
 
+	def findOne(id){
+		def couple = Couple.get id
+		if(!couple){
+			throw new NotFoundException("Casal não encontrado")
+		}
+		couple
+	}
+
 	def confirm(String username, String confirmationToken){
 		User user = User.findByUsernameAndConfirmationToken(username, confirmationToken)
 		if(!user){

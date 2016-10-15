@@ -1,23 +1,25 @@
 package couple.shopping
 
-import grails.rest.*
+import grails.plugin.springsecurity.annotation.Secured
 
-class ItemController extends RestfulController {
+import static org.springframework.http.HttpStatus.CREATED
+import static org.springframework.http.HttpStatus.OK
+
+class ItemController {
     static responseFormats = ['json', 'xml']
-    ItemController() {
-        super(Item)
+
+    ItemService itemService
+
+    CoupleService coupleService
+
+    @Secured('ROLE_USER')
+    def index(){
+        respond itemService.list(params), [status: OK]
+
     }
 
-    def check(){
-
+    def create(Item item){
+        respond itemService.create(params, item), [status: CREATED]
     }
 
-    @Override
-    protected List listAllResources(Map params) {
-        Couple couple = Couple.get(params['coupleId']);
-        if(couple){
-            Item.findAllByCoupleAndTags(couple, params['tags'])
-        }
-        return []
-    }
 }

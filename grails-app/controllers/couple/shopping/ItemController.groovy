@@ -10,16 +10,16 @@ class ItemController {
 
     ItemService itemService
 
-    CoupleService coupleService
+    UserService userService
 
     @Secured('ROLE_USER')
     def index(){
-        respond itemService.list(params), [status: OK]
-
+        respond itemService.list(userService.coupleFromAuthenticatedUser, params), [status: OK]
     }
 
+    @Secured('ROLE_USER')
     def create(Item item){
-        respond itemService.create(params, item), [status: CREATED]
+        respond itemService.create(userService.coupleFromAuthenticatedUser, item), [status: CREATED]
     }
 
 }

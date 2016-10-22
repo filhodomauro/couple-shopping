@@ -1,8 +1,6 @@
 package couple.shopping
 
-import exceptions.NotFoundException
 import grails.plugin.springsecurity.annotation.Secured
-import org.springframework.security.core.context.SecurityContextHolder
 
 import static org.springframework.http.HttpStatus.OK
 
@@ -13,12 +11,11 @@ class UserController implements ExceptionHandlerController {
 
     static responseFormats = ['json', 'xml']
 
+    UserService userService
+
     @Secured('ROLE_USER')
     def info(){
-        def user = User.get SecurityContextHolder.context.authentication?.principal?.id
-        if(!user){
-            throw new NotFoundException("User not found")
-        }
+        def user = userService.authenticatedUser
         respond user, [status: OK]
     }
 }

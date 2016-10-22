@@ -1,3 +1,3 @@
 #couple-shopping
 
-[Descrição das Estatísticas](DescricaoEstatisticas.md)
+API para lista de compras compartilhada entre um casal

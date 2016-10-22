@@ -25,7 +25,7 @@ class ItemServiceTest extends Specification{
         item.addToTagsItem new TagItem( description: "farmacia")
 
         when:
-        def persistentItem = itemService.create(['coupleId':couple.id], item)
+        def persistentItem = itemService.create(couple, item)
 
         then:
         persistentItem != null
@@ -47,12 +47,12 @@ class ItemServiceTest extends Specification{
         item.addToTagsItem new TagItem( description: "farmacia")
         item.addToTagsItem new TagItem( description: "mercado")
         item2.addToTagsItem new TagItem( description: "farmacia")
-        itemService.create(['coupleId':couple.id], item)
-        itemService.create(['coupleId':couple.id], item2)
-        itemService.create(['coupleId':couple.id], item3)
+        itemService.create(couple, item)
+        itemService.create(couple, item2)
+        itemService.create(couple, item3)
 
         when:
-        def items = itemService.list(['coupleId':couple.id])
+        def items = itemService.list(couple, [:])
 
         then:
         items != null
@@ -75,13 +75,13 @@ class ItemServiceTest extends Specification{
         item2.addToTagsItem new TagItem( description: "farmacia")
         item3.addToTagsItem new TagItem( description: "farmacia")
         item4.addToTagsItem new TagItem( description: "padaria")
-        itemService.create(['coupleId':couple.id], item)
-        itemService.create(['coupleId':couple.id], item2)
-        itemService.create(['coupleId':couple.id], item3)
-        itemService.create(['coupleId':couple.id], item4)
+        itemService.create(couple, item)
+        itemService.create(couple, item2)
+        itemService.create(couple, item3)
+        itemService.create(couple, item4)
 
         when:
-        def items = itemService.list(['coupleId':couple.id, 'tags': 'farmacia'])
+        def items = itemService.list(couple, ['tags': 'farmacia'])
 
         then:
         items != null
@@ -91,7 +91,7 @@ class ItemServiceTest extends Specification{
         items.find{it.description == item4.description} == null
 
         when:
-        items = itemService.list(['coupleId':couple.id, 'tags': 'mercado'])
+        items = itemService.list(couple, ['tags': 'mercado'])
 
         then:
         items != null
@@ -101,7 +101,7 @@ class ItemServiceTest extends Specification{
         items.find{it.description == item4.description} == null
 
         when:
-        items = itemService.list(['coupleId':couple.id, 'tags': 'mercado;padaria'])
+        items = itemService.list(couple, ['tags': 'mercado;padaria'])
 
         then:
         items != null
@@ -116,13 +116,13 @@ class ItemServiceTest extends Specification{
         def couple = createCouple()
 
         def item = new Item(description: "item list 1")
-        itemService.create(['coupleId':couple.id], item)
+        itemService.create couple, item
 
         when:
-        itemService.check item.id
+        itemService.check couple, item.id
 
         then:
-        def checkItem = itemService.findOne item.id
+        def checkItem = itemService.findOne couple, item.id
         checkItem.checked
         checkItem.dateChecked != null
 
@@ -133,11 +133,11 @@ class ItemServiceTest extends Specification{
         def couple = createCouple()
 
         def item = new Item(description: "item list 1")
-        itemService.create(['coupleId':couple.id], item)
+        itemService.create(couple, item)
 
         when:
-        itemService.delete couple.id, item.id
-        itemService.findOne item.id
+        itemService.delete couple, item.id
+        itemService.findOne couple, item.id
 
         then:
         thrown(NotFoundException)
@@ -148,21 +148,21 @@ class ItemServiceTest extends Specification{
         def couple = createCouple()
 
         def item = new Item(description: "item list 1")
-        itemService.create(['coupleId':couple.id], item)
+        itemService.create(couple, item)
 
         when:
         item.description = "new item description"
         item.addToTagsItem new TagItem( description: "farmacia")
-        itemService.update item
+        itemService.update couple, item
 
         then:
-        def updatedItem = itemService.findOne item.id
+        def updatedItem = itemService.findOne couple, item.id
         updatedItem.description == "new item description"
         item.tagsItem != null
         item.tagsItem.find{ it.description == "farmacia"} != null
     }
 
-    private Couple createCouple(){
+    private static Couple createCouple(){
         new Couple(
                 name: "Couple 1"
         ).save()

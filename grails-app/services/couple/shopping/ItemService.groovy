@@ -1,6 +1,5 @@
 package couple.shopping
 
-import exceptions.BadRequestException
 import exceptions.NotFoundException
 import grails.validation.ValidationException
 
@@ -11,8 +10,7 @@ class ItemService {
 
     CoupleService coupleService
 
-    def create(Map params, Item item){
-        def couple = coupleService.findOne(params['coupleId']?.toInteger())
+    def create(Couple couple, Item item){
         item.couple = couple
         if(!item.validate()){
             throw new ValidationException("Erro ao adicionar item", item.errors)
@@ -20,18 +18,16 @@ class ItemService {
         item.save()
     }
 
-    def update(Item item){
+    def update(Couple couple, Item item){
+        def foundItem = findOne(couple, item.id)
+        item.couple = foundItem.couple
         if(!item.validate()){
             throw new ValidationException("Erro ao salvar item", item.errors)
         }
         item.save()
     }
 
-    def list(Map params){
-        def couple = coupleService.findOne(params['coupleId']?.toInteger())
-        if(!couple){
-            throw new NotFoundException("Casal não encontrado")
-        }
+    def list(Couple couple, Map params){
         String tags = params['tags']
         Item.withCriteria {
             eq 'couple', couple
@@ -43,26 +39,23 @@ class ItemService {
         }
     }
 
-    def findOne(id){
+    def findOne(Couple couple, Long id){
         def item = Item.get id
-        if(!item){
-            throw new NotFoundException("Item não encontrado")
+        if(!item || item.couple.id != couple.id){
+            throw new NotFoundException("Item Not Found: ${id}")
         }
         item
     }
 
-    def check(itemId){
-        def item = findOne itemId
+    def check(Couple couple, Long itemId){
+        def item = findOne couple, itemId
         item.checked = true
         item.dateChecked = new Date()
         item.save()
     }
 
-    def delete(coupleId, id){
-        def item = findOne id
-        if(item.couple.id != coupleId){
-            throw new BadRequestException("Item não pertence ao casal")
-        }
+    def delete(Couple couple, Long id){
+        def item = findOne couple, id
         item.delete()
     }
 

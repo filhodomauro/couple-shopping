@@ -3,14 +3,13 @@ package couple.shopping
 import grails.test.mixin.integration.Integration
 import grails.transaction.Rollback
 import grails.validation.ValidationException
-
-import org.springframework.beans.factory.annotation.Autowired
-
+import spock.lang.Ignore
 import spock.lang.Specification
 import couple.shopping.command.CreateCoupleCommand
 import couple.shopping.command.NewUserCommand
 
 
+@Ignore
 @Integration
 @Rollback
 class CoupleServiceTest extends Specification{

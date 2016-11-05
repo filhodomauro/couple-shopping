@@ -31,16 +31,4 @@ class CoupleController implements ExceptionHandlerController {
 	def index(){
 		respond Couple.findAll(), [status: OK]
 	}
-
-	def confirm(String username, String token){
-		if(!username || !token){
-            log.error "Invalid parameters username: $username - token: $token"
-            response.status = BAD_REQUEST.value()
-            withFormat {
-                json { render errorObj(BAD_REQUEST, "Invalid parameters") as JSON }
-            }
-		}
-        coupleService.confirm username, token
-        render "Confirmation successful"
-	}
 }

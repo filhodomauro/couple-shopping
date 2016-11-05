@@ -20,8 +20,7 @@ class User implements Serializable {
 	boolean accountExpired
 	boolean accountLocked
 	boolean passwordExpired
-
-	static belongsTo = [couple : Couple]
+	Couple couple
 
 	Set<Role> getAuthorities() {
 		UserRole.findAllByUser(this)*.role
@@ -49,8 +48,9 @@ class User implements Serializable {
 		password nullable:true, blank: true, password: true
 		username blank: false, unique: true
 		name blank : false, size : 3..100
-		email blank : false, size : 4..100, email : true
+		email blank : false, size : 4..100, email : true, unique: true
 		confirmationToken nullable: true
+		couple nullable: true
 	}
 
 	static mapping = {

@@ -1,5 +1,5 @@
 import couple.shopping.Couple
-import couple.shopping.infra.CoupleConfirmationNotifier
+import couple.shopping.infra.UserConfirmationNotifier
 import couple.shopping.infra.mail.EmailNotifier
 import couple.shopping.mock.EmailNotifierMock
 import grails.converters.JSON
@@ -28,5 +28,5 @@ beans = {
 	} else {
 		emailNotifier(EmailNotifier)
 	}
-	coupleConfirmationNotifier(CoupleConfirmationNotifier)
+	userConfirmationNotifier(UserConfirmationNotifier)
 }

@@ -4,11 +4,13 @@ import exceptions.NotFoundException
 import grails.test.mixin.integration.Integration
 import grails.transaction.Rollback
 import org.springframework.beans.factory.annotation.Autowired
+import spock.lang.Ignore
 import spock.lang.Specification
 
 /**
  * Created by maurofilho on 10/13/16.
  */
+@Ignore
 @Integration
 @Rollback
 class ItemServiceTest extends Specification{

@@ -79,8 +79,8 @@ grails:
             authority:
                 className: 'couple.shopping.Role'
             filterChain.chainMap: [
-                { pattern: '/couples/create', filters: 'none'},
-                { pattern: '/confirm/**', filters: 'none'},
+                { pattern: '/users/create', filters: 'none'},
+                { pattern: '/users/confirm/**', filters: 'none'},
                 { pattern: '/**', filters: 'JOINED_FILTERS,-anonymousAuthenticationFilter,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter,-rememberMeAuthenticationFilter' }
             ]
 

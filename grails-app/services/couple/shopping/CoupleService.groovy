@@ -1,13 +1,13 @@
 package couple.shopping
 
 import couple.shopping.command.CreateCoupleCommand
-import couple.shopping.infra.CoupleConfirmationNotifier
+import couple.shopping.infra.UserConfirmationNotifier
 import exceptions.NotFoundException
 import grails.validation.ValidationException
 
 class CoupleService {
 	
-	CoupleConfirmationNotifier coupleConfirmationNotifier
+	UserConfirmationNotifier coupleConfirmationNotifier
 
 	def emailNotifier
 
@@ -39,21 +39,5 @@ class CoupleService {
 			throw new NotFoundException("Casal não encontrado")
 		}
 		couple
-	}
-
-	def confirm(String username, String confirmationToken){
-		User user = User.findByUsernameAndConfirmationToken(username, confirmationToken)
-		if(!user){
-			throw new NotFoundException("Username or token not found")
-		}
-		user.enabled = true
-		user.save failOnError: true
-		userRoles.each {
-			UserRole.create user, it
-		}
-	}
-
-	private List<Role> getUserRoles(){
-		Role.findAllByAuthority 'ROLE_USER'
 	}
 }

@@ -6,7 +6,7 @@ class Couple {
 
     Date dateCreated
 
-    static hasMany = [users : User, items : Item]
+    static hasMany = [users : User, items : Item, invites : InviteUser]
 
     static constraints = {
         name blank : false, size : 3..100

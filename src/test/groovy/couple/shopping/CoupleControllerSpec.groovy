@@ -20,21 +20,12 @@ class CoupleControllerSpec extends Specification {
 	def "test that a couple is created"(){
 		setup:
 		def coupleCommand = new CreateCoupleCommand(
-			name:"Couple test",
-			primaryUser: new NewUserCommand(
-					name : "mauro filho",
-					email: "mauro.filho@coupleshopping.com",
-					password: "2327648376"
-			),
-			secondaryUser: new NewUserCommand(
-				name: "ana paula",
-				email: "ana.paula@coupleshopping.com"
-			)
+			name:"Couple test"
 		)
 		controller.coupleService = Mock(CoupleService)
 		controller.coupleService.create(_) >> { CreateCoupleCommand c ->
-			Couple couple = c.toCouple()
-			couple.id = 1
+			Couple couple = new Couple(name: c.name)
+			couple.id = 1L
 			couple
 		}
 		when:
@@ -52,17 +43,7 @@ class CoupleControllerSpec extends Specification {
 	
 	void "test that a couple is rejected by invalid data"(){
 		setup:
-		def coupleCommand = new CreateCoupleCommand(
-			primaryUser: new NewUserCommand(
-					name : "mauro filho",
-					email: "mauro.filho@coupleshopping.com",
-					password: "2327648376"
-			),
-			secondaryUser: new NewUserCommand(
-				name: "ana paula",
-				email: "ana.paula@coupleshopping.com"
-			)
-		)
+		def coupleCommand = new CreateCoupleCommand()
 		controller.coupleService = Mock(CoupleService)
 		controller.coupleService.create(_) >> { CreateCoupleCommand c ->
 			c.validate()

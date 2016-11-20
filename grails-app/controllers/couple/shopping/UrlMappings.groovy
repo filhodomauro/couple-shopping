@@ -4,16 +4,14 @@ class UrlMappings {
 
     static mappings = {
 
-
         "/"(controller: 'application', action:'index')
-		"/couples" (controller: 'couple', action: [GET:'index'])
-        "/couples/check" (controller: 'couple', action: [GET:'check'])
-		"/couples/$id" (controller: 'couple', action: [GET:'show', PUT:'update', DELETE:'delete'])
-        "/couples/create" (controller: 'couple', action: [POST: 'create'])
 
         "/users/confirm/$username/$token" (controller: 'user', action: [GET: 'confirm'])
         "/users/me" (controller: 'user', action: [GET: 'info', PUT: 'update'])
         "/users/create"(controller: 'user', action: [POST: 'save'])
+
+        "/couples" (controller: 'couple', action: [GET:'show', POST: 'create', PUT:'update'])
+        "/couples/accept" (controller: 'couple', action: [POST:'accept'])
 
 		"/tags" (controller: 'tag', action: [GET: 'index', POST: 'create'])
 		

@@ -2,9 +2,8 @@ package couple.shopping
 
 import couple.shopping.command.NewUserCommand
 import couple.shopping.command.UpdateUserCommand
-import couple.shopping.infra.UserConfirmationNotifier
+import couple.shopping.infra.UserNotifier
 import exceptions.NotFoundException
-import grails.plugin.springsecurity.SpringSecurityService
 import grails.validation.ValidationException
 import org.springframework.security.core.context.SecurityContextHolder
 
@@ -15,8 +14,7 @@ import java.security.SecureRandom
  */
 class UserService {
 
-    UserConfirmationNotifier userConfirmationNotifier
-    SpringSecurityService springSecurityService
+    UserNotifier userNotifier
 
     def emailNotifier
 
@@ -27,7 +25,7 @@ class UserService {
         }
         user.confirmationToken = generateToken()
         user.save()
-        userConfirmationNotifier.created user, emailNotifier
+        userNotifier.created user, emailNotifier
         user
     }
 
@@ -51,14 +49,6 @@ class UserService {
             throw new NotFoundException("User not found", "user.notfound")
         }
         user
-    }
-
-    Couple getCoupleFromAuthenticatedUser(){
-        def user = authenticatedUser
-        if(!user.couple){
-            throw new NotFoundException("Couple not found", "couple.notfound")
-        }
-        user.couple
     }
 
     def confirm(String username, String confirmationToken){

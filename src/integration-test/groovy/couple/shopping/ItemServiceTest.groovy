@@ -4,13 +4,18 @@ import exceptions.NotFoundException
 import grails.test.mixin.integration.Integration
 import grails.transaction.Rollback
 import org.springframework.beans.factory.annotation.Autowired
-import spock.lang.Ignore
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.Authentication
+import org.springframework.security.core.context.SecurityContextHolder
 import spock.lang.Specification
+
+import static couple.shopping.utils.CoupleShoppingTestHelper.getUserCommand
+import static couple.shopping.utils.CoupleShoppingTestHelper.getCoupleCommand
+
 
 /**
  * Created by maurofilho on 10/13/16.
  */
-@Ignore
 @Integration
 @Rollback
 class ItemServiceTest extends Specification{
@@ -18,16 +23,28 @@ class ItemServiceTest extends Specification{
     @Autowired
     ItemService itemService
 
+    @Autowired
+    CoupleService coupleService
+
+    @Autowired
+    UserService userService
+
+    def setup(){
+        def user = userService.create getUserCommand()
+        Authentication auth = new UsernamePasswordAuthenticationToken(user,null);
+        SecurityContextHolder.context.setAuthentication(auth)
+        coupleService.create getCoupleCommand()
+    }
+
     def "test that an item is created"(){
         given:
-        def couple = createCouple()
         def item = new Item(
                 description: "Item created"
         )
         item.addToTagsItem new TagItem( description: "farmacia")
 
         when:
-        def persistentItem = itemService.create(couple, item)
+        def persistentItem = itemService.create item
 
         then:
         persistentItem != null
@@ -40,8 +57,6 @@ class ItemServiceTest extends Specification{
 
     def "test that many items are listed by couple"(){
         given:
-        def couple = createCouple()
-
         def item = new Item(description: "item list 1")
         def item2 = new Item(description: "item list 2")
         def item3 = new Item(description: "item list 2")
@@ -49,12 +64,12 @@ class ItemServiceTest extends Specification{
         item.addToTagsItem new TagItem( description: "farmacia")
         item.addToTagsItem new TagItem( description: "mercado")
         item2.addToTagsItem new TagItem( description: "farmacia")
-        itemService.create(couple, item)
-        itemService.create(couple, item2)
-        itemService.create(couple, item3)
+        itemService.create item
+        itemService.create item2
+        itemService.create item3
 
         when:
-        def items = itemService.list(couple, [:])
+        def items = itemService.list [:]
 
         then:
         items != null
@@ -65,8 +80,6 @@ class ItemServiceTest extends Specification{
 
     def "test that many items are listed by couple and filtered by tags"(){
         given:
-        def couple = createCouple()
-
         def item = new Item(description: "item list 1")
         def item2 = new Item(description: "item list 2")
         def item3 = new Item(description: "item list 3")
@@ -77,13 +90,14 @@ class ItemServiceTest extends Specification{
         item2.addToTagsItem new TagItem( description: "farmacia")
         item3.addToTagsItem new TagItem( description: "farmacia")
         item4.addToTagsItem new TagItem( description: "padaria")
-        itemService.create(couple, item)
-        itemService.create(couple, item2)
-        itemService.create(couple, item3)
-        itemService.create(couple, item4)
+        itemService.create item
+        itemService.create item2
+        itemService.create item3
+        itemService.create item4
 
         when:
-        def items = itemService.list(couple, ['tags': 'farmacia'])
+        Map params = ['tags': 'farmacia']
+        def items = itemService.list params
 
         then:
         items != null
@@ -93,7 +107,8 @@ class ItemServiceTest extends Specification{
         items.find{it.description == item4.description} == null
 
         when:
-        items = itemService.list(couple, ['tags': 'mercado'])
+        params = ['tags': 'mercado']
+        items = itemService.list params
 
         then:
         items != null
@@ -103,7 +118,8 @@ class ItemServiceTest extends Specification{
         items.find{it.description == item4.description} == null
 
         when:
-        items = itemService.list(couple, ['tags': 'mercado;padaria'])
+        params = ['tags': 'mercado;padaria']
+        items = itemService.list params
 
         then:
         items != null
@@ -115,16 +131,14 @@ class ItemServiceTest extends Specification{
 
     def "test that an item is checked"(){
         given:
-        def couple = createCouple()
-
         def item = new Item(description: "item list 1")
-        itemService.create couple, item
+        itemService.create item
 
         when:
-        itemService.check couple, item.id
+        itemService.check item.id
 
         then:
-        def checkItem = itemService.findOne couple, item.id
+        def checkItem = itemService.findOne item.id
         checkItem.checked
         checkItem.dateChecked != null
 
@@ -132,14 +146,12 @@ class ItemServiceTest extends Specification{
 
     def "test that an item is deleted"(){
         given:
-        def couple = createCouple()
-
         def item = new Item(description: "item list 1")
-        itemService.create(couple, item)
+        itemService.create item
 
         when:
-        itemService.delete couple, item.id
-        itemService.findOne couple, item.id
+        itemService.delete item.id
+        itemService.findOne item.id
 
         then:
         thrown(NotFoundException)
@@ -147,26 +159,18 @@ class ItemServiceTest extends Specification{
 
     def "test that an item is updated"(){
         given:
-        def couple = createCouple()
-
         def item = new Item(description: "item list 1")
-        itemService.create(couple, item)
+        itemService.create item
 
         when:
         item.description = "new item description"
         item.addToTagsItem new TagItem( description: "farmacia")
-        itemService.update couple, item
+        itemService.update item
 
         then:
-        def updatedItem = itemService.findOne couple, item.id
+        def updatedItem = itemService.findOne item.id
         updatedItem.description == "new item description"
         item.tagsItem != null
         item.tagsItem.find{ it.description == "farmacia"} != null
-    }
-
-    private static Couple createCouple(){
-        new Couple(
-                name: "Couple 1"
-        ).save()
     }
 }

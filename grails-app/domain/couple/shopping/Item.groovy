@@ -3,6 +3,7 @@ package couple.shopping
 class Item {
 
     String description
+
     boolean checked
 
     Date dateCreated
